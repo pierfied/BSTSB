@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python -u $BSTSB_BASH_HELPER ${@:1}
