@@ -3,9 +3,15 @@ Bot Script the Script Bot
 
 ## Installation
 `python setup.py install`
+Note the installation will edit `~/.bashrc` and it must therefore be sourced by your shell. For MacOS and some other systems it is necessary to source `~/.bashrc` from `~/.bash_profile`. To do so add the following to `~/.bash_profile`:
+```
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+```
 
 ## Configuration
-Add the following to `~/.bashrc`:
+During installation you will be prompted to configure your slack account. If you choose not to during installation you may add the following to `~/.bashrc` afterwards:
 ```
 export SLACK_USERNAME=your username here
 export SLACK_BOT_TOKEN=api token here
@@ -16,3 +22,7 @@ To run something in the foreground:
 
 To run something in the background:
 `bstsb -bg command here`
+
+### Example
+If I want to run a long python script and don't want to sit around for a while I could do the following:
+`bstsb -bg python long_script.py`
