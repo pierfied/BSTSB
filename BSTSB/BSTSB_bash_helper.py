@@ -30,6 +30,8 @@ if __name__=="__main__":
     if pid > 0:
         exit(0)
 
+    command = ' '.join(command)
+
     with open('out.txt','w') as outfile:
         ret_val = call(command,shell=True, stdout=outfile, stderr=outfile)
 
