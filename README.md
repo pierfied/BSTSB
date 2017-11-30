@@ -6,7 +6,8 @@ Bot Script the Script Bot
 
 Note the installation will edit `~/.bashrc` and it must therefore be sourced by your shell.
 For MacOS and some other systems it is necessary to source `~/.bashrc` from `~/.bash_profile`.
-To do so add the following to `~/.bash_profile`:
+During installation you will be prompted if you want this to be done automatically.
+To do so manually add the following to `~/.bash_profile`:
 ```
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
