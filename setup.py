@@ -1,26 +1,7 @@
 from setuptools import setup
 from subprocess import call
+import pkg_resources
 import os,sys,site
-
-def binaries_directory():
-    """Return the installation directory, or None"""
-    if '--user' in sys.argv:
-        paths = (site.getusersitepackages(),)
-    else:
-        py_version = '%s.%s' % (sys.version_info[0], sys.version_info[1])
-        paths = (s % (py_version) for s in (
-            sys.prefix + '/lib/python%s/dist-packages/',
-            sys.prefix + '/lib/python%s/site-packages/',
-            sys.prefix + '/local/lib/python%s/dist-packages/',
-            sys.prefix + '/local/lib/python%s/site-packages/',
-            '/Library/Python/%s/site-packages/',
-        ))
-
-    for path in paths:
-        if os.path.exists(path):
-            return path
-    print('no installation path found', file=sys.stderr)
-    return None
 
 setup(name='BSTSB',
       version='0.1',
@@ -36,14 +17,26 @@ setup(name='BSTSB',
 
 call('rm -rf BSTSB',shell=True)
 
-call('python finalize.py',shell=True)
+HELPER_PATH = pkg_resources.resource_filename('BSTSB','BSTSB_bash_helper.py')
+BASH_PATH = pkg_resources.resource_filename('BSTSB','')
 
-#import BSTSB
+command = 'echo \'export BSTSB_BASH_HELPER=' + HELPER_PATH + '\' >> ~/.bashrc'
+call(command,shell=True)
+command = 'echo \'export PATH="' + BASH_PATH + ':$PATH"' + '\' >> ~/.bashrc'
+call(command,shell=True)
+command = 'chmod +x ' + BASH_PATH + '/bstsb'
+call(command,shell=True)
 
-# BASH_PATH = binaries_directory() + 'BSTSB'
-# HELPER_PATH = binaries_directory() + 'BSTSB/BSTSB_bash_helper.py'
-#
-# command = 'echo \'export BSTSB_BASH_HELPER=' + HELPER_PATH + '\' >> ~/.bashrc'
-# call(command,shell=True)
-# command = 'echo \'export PATH="' + BASH_PATH + ':$PATH"' + '\' >> ~/.bashrc'
-# call(command,shell=True)
+try: input = raw_input
+except NameError: pass
+
+configure = input('Configure slack account now? (y/n) ')
+
+if configure == 'y':
+    USERNAME = input('Enter slack username: ')
+    API_TOKEN = input('Enter slackbot API token: ')
+
+    command = 'echo \'export SLACK_USERNAME=' + USERNAME + '\' >> ~/.bashrc'
+    call(command,shell=True)
+    command = 'echo \'export SLACK_BOT_TOKEN=' + API_TOKEN + '\' >> ~/.bashrc'
+    call(command,shell=True)
