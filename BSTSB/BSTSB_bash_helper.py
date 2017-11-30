@@ -26,14 +26,18 @@ if __name__=="__main__":
     if background and len(sys.argv) < 3:
         nice_try_protocol()
 
-    pid = os.fork()
-    if pid > 0:
-        exit(0)
-
     command = ' '.join(command)
 
-    with open('out.txt','w') as outfile:
-        ret_val = call(command,shell=True, stdout=outfile, stderr=outfile)
+    if background:
+        pid = os.fork()
+        if pid > 0:
+            exit(0)
+        os.setsid()
+
+        with open('out.txt','w') as outfile:
+            ret_val = call(command,shell=True,stdout=outfile,stderr=outfile)
+    else:
+        ret_val = call(command,shell=True)
 
     bot = BSTSB()
     if ret_val != 0:
