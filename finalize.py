@@ -16,7 +16,7 @@ call(command,shell=True)
 try: input = raw_input
 except NameError: pass
 
-configure = input('Configure slack account now? (y/n) ')
+configure = input('Configure slack account now? [y/n] ')
 
 if configure == 'y':
     USERNAME = input('Enter slack username: ')
@@ -25,4 +25,15 @@ if configure == 'y':
     command = 'echo \'export SLACK_USERNAME=' + USERNAME + '\' >> ~/.bashrc'
     call(command,shell=True)
     command = 'echo \'export SLACK_BOT_TOKEN=' + API_TOKEN + '\' >> ~/.bashrc'
+    call(command,shell=True)
+
+source = input('Source ~/.bashrc from ~/.bash_profile?(MacOS) [y/n] ')
+
+if source == 'y':
+    SOURCE_STRING = ('if [ -f ~/.bashrc ]; then\n'
+                     '    source ~/.bashrc\n'
+                     'fi')
+
+    command = 'echo \'export SLACK_USERNAME=' + SOURCE_STRING +\
+              '\' >> ~/.bash_profile'
     call(command,shell=True)
