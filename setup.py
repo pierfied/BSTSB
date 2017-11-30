@@ -1,7 +1,5 @@
 from setuptools import setup
 from subprocess import call
-import pkg_resources
-import os,sys,site
 
 setup(name='BSTSB',
       version='0.1',
