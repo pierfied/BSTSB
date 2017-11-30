@@ -2,6 +2,8 @@
 Bot Script the Script Bot
 
 ## Installation
+Requires the slackclient python module.
+
 `python setup.py install`
 
 Note the installation will edit `~/.bashrc` and it must therefore be sourced by your shell.
